@@ -1,2 +1,2 @@
-This project hosts plugins supporting Java development on Amazons Web Services EC2.
+This project hosts Eclipse plugins supporting Java development on Amazons Web Services EC2.
  

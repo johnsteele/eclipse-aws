@@ -16,7 +16,7 @@ public class ServersView extends ViewPart {
 	/**
 	 * The tree of servers. 
 	 */
-	private TreeViewer my_viewer; 
+	private TreeViewer server_viewer; 
 
 	public ServersView() {
 	}
@@ -25,21 +25,20 @@ public class ServersView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		
 		/* Parent Layout */
-		Composite comp = new Composite (parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL);
-		comp.setLayout(new GridLayout());
-		GridData data = new GridData();
-		data.heightHint = 0;
-		data.widthHint  = 0;
-		data.horizontalAlignment = GridData.FILL;
-		data.verticalAlignment   = GridData.FILL;
-		comp.setLayoutData(data);
+		Composite comp = new Composite (parent, SWT.BORDER);
+		GridLayout layout = new GridLayout(1, true);
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.verticalSpacing = 0;
+		parent.setLayout(layout);
+		comp.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		
 		/* Initialize Tree Viewer */
 		init_viewer (comp);
 	}
 	
 	private void init_viewer (Composite parent) {
-		
+		server_viewer = new TreeViewer(parent, SWT.SINGLE);
 	}
 
 	@Override

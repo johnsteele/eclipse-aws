@@ -8,7 +8,9 @@
             name="AWS EC2 Java">
       </category>
       <view
-            class="com.steelejr.aws.ec2.java.server.ui.ViewPart1"
+            category="com.steelejr.aws.ec2.java.server.ui.serverViewCategory"
+            class="com.steelejr.aws.ec2.java.server.ui.view.ServersView"
+            icon="icons/servers_view.gif"
             id="com.steelejr.aws.ec2.java.server.ui.serverView"
             name="Servers "
             restorable="true">

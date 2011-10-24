@@ -38,11 +38,23 @@ public class ServersView extends ViewPart {
 	}
 	
 	private void init_viewer (Composite parent) {
+		
+		/* Providers */
 		server_viewer = new TreeViewer(parent, SWT.SINGLE);
+		server_viewer.setContentProvider(new ServersViewContentProvider());
+		server_viewer.setLabelProvider(new ServersViewLabelProvider());
+		
+		/* Input */
+		server_viewer.setInput(getSite().getPage().getInput());
+		getSite().setSelectionProvider(server_viewer);
 	}
 
 	@Override
 	public void setFocus() {
 	}
-
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+	}
 }

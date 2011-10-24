@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Ui
-Bundle-SymbolicName: com.steelejr.aws.ec2.java.server.ui
+Bundle-SymbolicName: com.steelejr.aws.ec2.java.server.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.steelejr.aws.ec2.java.server.ui.Activator
 Bundle-Vendor: STEELEJR

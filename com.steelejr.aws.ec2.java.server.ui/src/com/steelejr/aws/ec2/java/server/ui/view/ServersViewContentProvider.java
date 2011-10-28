@@ -1,5 +1,6 @@
 package com.steelejr.aws.ec2.java.server.ui.view;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -18,7 +19,7 @@ public class ServersViewContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		return null;
+		return ResourcesPlugin.getWorkspace().getRoot().getProjects();
 	}
 
 	@Override

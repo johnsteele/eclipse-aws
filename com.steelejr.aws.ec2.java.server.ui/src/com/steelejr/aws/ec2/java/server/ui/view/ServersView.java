@@ -1,15 +1,18 @@
 package com.steelejr.aws.ec2.java.server.ui.view;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
+import com.steelejr.aws.ec2.java.server.ui.Activator;
 
 /**
  * A view to display the servers. 
- *
  */
 public class ServersView extends ViewPart {
 	
@@ -45,7 +48,7 @@ public class ServersView extends ViewPart {
 		server_viewer.setLabelProvider(new ServersViewLabelProvider());
 		
 		/* Input */
-		server_viewer.setInput(getSite().getPage().getInput());
+		server_viewer.setInput(ResourcesPlugin.getWorkspace().getRoot().getProjects());
 		getSite().setSelectionProvider(server_viewer);
 	}
 

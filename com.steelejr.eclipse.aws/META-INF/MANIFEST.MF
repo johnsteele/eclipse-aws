@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Aws
-Bundle-SymbolicName: com.steelejr.eclipse.aws
+Bundle-SymbolicName: com.steelejr.eclipse.aws;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.steelejr.eclipse.aws.Activator
 Bundle-Vendor: STEELEJR

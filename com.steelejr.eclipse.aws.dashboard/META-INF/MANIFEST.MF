@@ -1,11 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Dashboard
-Bundle-SymbolicName: com.steelejr.eclipse.aws.dashboard
+Bundle-SymbolicName: com.steelejr.eclipse.aws.dashboard;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.steelejr.eclipse.aws.dashboard.Activator
 Bundle-Vendor: STEELEJR
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.ui.forms;bundle-version="3.5.100"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Export-Package: com.steelejr.eclipse.aws.dashboard.editor

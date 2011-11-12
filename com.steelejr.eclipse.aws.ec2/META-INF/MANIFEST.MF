@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Ec2
+Bundle-SymbolicName: com.steelejr.eclipse.aws.ec2;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.steelejr.eclipse.aws.ec2.Activator
+Bundle-Vendor: STEELEJR
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.steelejr.eclipse.aws.dashboard;bundle-version="1.0.0",
+ org.eclipse.ui.forms;bundle-version="3.5.100",
+ com.steelejr.eclipse.aws;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

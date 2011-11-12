@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.steelejr.eclipse.aws.dashboard.dashboardPage">
+      <dashboardPage
+            class="com.steelejr.eclipse.aws.ec2.editor.Ec2DashboardPage"
+            id="ec2"
+            title="Ec2">
+      </dashboardPage>
+   </extension>
+
+</plugin>

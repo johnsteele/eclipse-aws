@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="com.steelejr.eclipse.aws.AwsCategory"
+            class="com.steelejr.eclipse.aws.server.view.ServersView"
+            icon="icons/view/servers_view.gif"
+            id="com.steelejr.eclipse.aws.server.view.ServersView"
+            name="AWS Servers"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>

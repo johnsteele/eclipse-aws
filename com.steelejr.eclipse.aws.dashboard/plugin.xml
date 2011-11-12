@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="dashboardPage" name="DashboardPage" schema="schema/dashboardPage.exsd"/>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            description="The Dashboard Specific Action Set"
+            id="com.steelejr.eclipse.aws.dashboard.actionSet"
+            label="Dashboard">
+         <action
+               class="com.steelejr.eclipse.aws.actions.OpenDashboardActionDelegate"
+               icon="icons/aws-box.gif"
+               id="com.steelejr.eclipse.aws.dashboard.actions.OpenDashboardActionDelegate"
+               label="Open AWS Dashboard"
+               style="push"
+               toolbarPath="additions"
+               tooltip="Open AWS Dashboard">
+         </action>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.steelejr.eclipse.aws.dashboard.editor.AwsDashboardEditor"
+            default="false"
+            icon="icons/aws-box.gif"
+            id="com.steelejr.eclipse.aws.dashboard.editor.AwsDashboardEditor"
+            name="AWS Dashboard ">
+      </editor>
+   </extension>
+
+</plugin>

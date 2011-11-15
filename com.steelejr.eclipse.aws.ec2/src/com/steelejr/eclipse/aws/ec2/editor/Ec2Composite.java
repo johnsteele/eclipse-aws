@@ -5,7 +5,13 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
@@ -26,7 +32,7 @@ public class Ec2Composite {
 	
 	
 	public Ec2Composite (Composite parent) {
-		viewer = new TreeViewer (parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
+		viewer = new TreeViewer (parent); //SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
 		
 		
 		AmazonEC2 ec2 = AWSCorePlugin.getDefault().getEc2Client();
@@ -46,6 +52,8 @@ public class Ec2Composite {
 		viewer.setContentProvider(new Ec2InstancesContentProvider());
 		viewer.setLabelProvider(new Ec2InstancesLabelProvider());
 		viewer.setInput(allInstances);
+		viewer.getTree().setLayout(new GridLayout());
+		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 	}
 	
 	

@@ -22,7 +22,6 @@ public class WelcomePage extends FormPage {
 		Section section = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR | Section.DESCRIPTION);
 		section.setText("Testing");
 		
-		
 		/* Bottom - New Features Feed */
 	}
 

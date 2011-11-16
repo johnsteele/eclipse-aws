@@ -25,6 +25,7 @@ public class Ec2Composite {
 	 * The tree of instances.
 	 */
 	private TreeViewer viewer;
+	private List<Instance> my_instances;
 	
 	/**
 	 * Current account information.
@@ -40,18 +41,19 @@ public class Ec2Composite {
 		result = ec2.describeInstances();
 		
 		List<Reservation> reservations = result.getReservations();
-		List<Instance> allInstances = new ArrayList<Instance>();
+		my_instances = new ArrayList<Instance>();
 		
 		for (Reservation reservation : reservations) {
+	
 			 List<Instance> instances = reservation.getInstances();
 			 for (Instance instance : instances) {
-				 allInstances.add(instance);
+				 my_instances.add(instance);
 			 }
 		}
 		
 		viewer.setContentProvider(new Ec2InstancesContentProvider());
 		viewer.setLabelProvider(new Ec2InstancesLabelProvider());
-		viewer.setInput(allInstances);
+		viewer.setInput(my_instances);
 		viewer.getTree().setLayout(new GridLayout());
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 	}
@@ -64,5 +66,14 @@ public class Ec2Composite {
 	 */
 	public TreeViewer getViewer () {
 		return viewer;
+	}
+	
+	/**
+	 * Returns the list of Instances.
+	 * 
+	 * @return The list of instances.
+	 */
+	public List<Instance> getInstances () {
+		return my_instances;
 	}
 }

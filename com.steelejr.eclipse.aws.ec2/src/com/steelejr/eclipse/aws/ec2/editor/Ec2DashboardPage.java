@@ -1,6 +1,7 @@
 package com.steelejr.eclipse.aws.ec2.editor;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -21,17 +22,23 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
+import com.amazonaws.services.ec2.model.Instance;
 import com.steelejr.eclipse.aws.dashboard.editor.DashboardPageProxy;
 import com.steelejr.eclipse.aws.ec2.Activator;
 import com.steelejr.eclipse.aws.util.Ec2Images;
 
-public class Ec2DashboardPage extends DashboardPageProxy implements ISelectionChangedListener {
+public class Ec2DashboardPage extends DashboardPageProxy {
 	
 	/**
 	 * The EC2Composite maintains the tree of Ec2 instances.
 	 */
 	private Ec2Composite my_ec2Comp;
+	private Ec2DetailsComposite my_ec2Details;
 	private IWorkbenchPartSite my_site;
+	/**
+	 * The currently selected instance.
+	 */
+	private Instance my_instance;
 
 
 	@Override
@@ -56,9 +63,6 @@ public class Ec2DashboardPage extends DashboardPageProxy implements ISelectionCh
 		
 		/* Details Section */
 		createDetailsSection (form, toolkit);
-		
-		/* Create Web Server Section */
-		createServerSection (form, toolkit);
 	}
 	
 	
@@ -128,17 +132,58 @@ public class Ec2DashboardPage extends DashboardPageProxy implements ISelectionCh
 		// tree of instances.
 		my_ec2Comp = new Ec2Composite (client);
 		
-		// Listen for changed instance.
-		my_ec2Comp.getViewer().addSelectionChangedListener(this);
-		
 		// right column.
-
-
+		Composite colComp = toolkit.createComposite(client, SWT.WRAP);
+		layout = new GridLayout();
+		layout.numColumns = 1;
+		layout.marginHeight = 0;
+		colComp.setLayout(layout);
+		GridData data = new GridData ();
+		data.verticalAlignment = SWT.TOP;
+		colComp.setLayoutData(data);
+	
 		
-		client.pack();
-		section.pack();
+		// start 
+		final Button startButton = toolkit.createButton(colComp, "Start", SWT.PUSH);
+		startButton.setImage(Activator.getDefault().getImageRegistry().get(Ec2Images.IMG_LAUNCH_RUN));
+		
+		// stop
+		final Button stopButton = toolkit.createButton(colComp, "Stop", SWT.PUSH);
+		stopButton.setImage(Activator.getDefault().getImageRegistry().get(Ec2Images.IMG_LAUNCH_STOP));
+		
+
+		my_ec2Comp.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSelection() instanceof IStructuredSelection) {
+					IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+					Object o = selection.getFirstElement();
+					if (o instanceof Instance) {
+						Instance instance = (Instance) o;
+						// If a different instance was selected.
+						if (instance != my_instance) {
+							my_instance = instance;
+							// Update buttons.
+							startButton.setEnabled(my_instance.getState().getName().equals("stopped"));
+							stopButton.setEnabled(my_instance.getState().getName().equals("running"));
+							// Update details.
+							updateDetails ();
+						}
+					}
+				}
+			}
+		});
+	}
+	
+	
+	/**
+	 * Refreshes the details to the currently selected instance.
+	 */
+	private void updateDetails () {
 		
 	}
+	
 	
 	/**
 	 * Creates the details sections which displays the details of the currently selected
@@ -163,61 +208,9 @@ public class Ec2DashboardPage extends DashboardPageProxy implements ISelectionCh
 		client.setLayout(layout);
 		client.setLayoutData(new GridData (GridData.FILL_BOTH));
 		section.setClient(client);
-		toolkit.paintBordersFor(client);	
-	}
-	
-	
-	private void createServerSection (ScrolledForm form, FormToolkit toolkit) {
-		Section section = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR | Section.EXPANDED);
-		section.setText("Downloads");
-		section.setLayout(new GridLayout ());
-		GridData data = new GridData ();
-		data.horizontalSpan = 2;
-		data.grabExcessHorizontalSpace = true;
-		data.grabExcessVerticalSpace = true;
-		data.horizontalAlignment = GridData.FILL;
-		data.verticalAlignment = GridData.FILL;
-		section.setLayoutData(data);
-	}
-
-
-	@Override
-	public void selectionChanged(SelectionChangedEvent event) {
+		toolkit.paintBordersFor(client);
 		
-	}
-	
-	
-	/**
-	 * An class to represent the right column composite. 
-	 * 
-	 * @author John Steele
-	 */
-	private class ButtonComposite {
-		
-		public ButtonComposite (FormToolkit tookit, Composite parent) {
-			createComposite (tookit, parent);
-		}
-		
-		
-		private void createComposite (FormToolkit toolkit, Composite parent) {
-			Composite colComp = toolkit.createComposite(parent, SWT.WRAP);
-			GridLayout layout = new GridLayout();
-			layout.numColumns = 1;
-			layout.marginHeight = 0;
-			colComp.setLayout(layout);
-			GridData data = new GridData ();
-			data.verticalAlignment = SWT.TOP;
-			colComp.setLayoutData(data);
-		
-			
-			// start 
-			Button b = toolkit.createButton(colComp, "Start", SWT.PUSH);
-			b.setImage(Activator.getDefault().getImageRegistry().get(Ec2Images.IMG_LAUNCH_RUN));
-			
-			// stop
-			b = toolkit.createButton(colComp, "Stop", SWT.PUSH);
-			b.setImage(Activator.getDefault().getImageRegistry().get(Ec2Images.IMG_LAUNCH_STOP));
-		}
-		
+		// Table of details.
+		my_ec2Details = new Ec2DetailsComposite(client);
 	}
 }

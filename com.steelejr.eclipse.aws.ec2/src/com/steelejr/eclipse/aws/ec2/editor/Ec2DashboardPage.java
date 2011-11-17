@@ -33,6 +33,7 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 	 * The EC2Composite maintains the tree of Ec2 instances.
 	 */
 	private Ec2Composite my_ec2Comp;
+	private Ec2MasterDetailsBlock my_block;
 	private Ec2DetailsComposite my_ec2Details;
 	private IWorkbenchPartSite my_site;
 	/**
@@ -42,7 +43,9 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 
 
 	@Override
-	public void createForm(IManagedForm managedForm, IWorkbenchPartSite site) {
+	public void createForm(IManagedForm managedForm, IWorkbenchPartSite site) {		
+		
+		my_site = site;
 		
 		/* Form and Toolkit */
 		ScrolledForm form = managedForm.getForm();
@@ -53,16 +56,16 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 		layout.makeColumnsEqualWidth = true;
 		form.getBody().setLayout(layout);
 		
-		my_site = site;
-		
 		/* Header Composite */
 		createHeader (form, toolkit);
 		
 		/* Instances Section */
-		createInstanceSection (form, toolkit);
+		//createInstanceSection (form, toolkit);
+		my_block = new Ec2MasterDetailsBlock(this);
+		my_block.createContent(managedForm);
 		
 		/* Details Section */
-		createDetailsSection (form, toolkit);
+		//createDetailsSection (form, toolkit);
 	}
 	
 	
@@ -94,7 +97,6 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 		// section layout
 		section.setLayout(new GridLayout ());
 		section.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
 		
 		// toolbar
 		ToolBar bar = new ToolBar(section, SWT.FLAT | SWT.HORIZONTAL);

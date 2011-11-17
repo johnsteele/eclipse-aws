@@ -5,5 +5,10 @@ import org.eclipse.ui.forms.IManagedForm;
 
 public interface IDashboardProxy {
 	
+	/**
+	 * A callback to create the UI of the form page.
+	 * @param managedForm
+	 * @param site
+	 */
 	public void createForm(IManagedForm managedForm, IWorkbenchPartSite site);
 }

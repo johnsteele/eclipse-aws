@@ -9,8 +9,8 @@ import org.eclipse.ui.forms.editor.FormPage;
 
 public class DashboardPageProxy extends FormPage implements IDashboardProxy {
 
-	IConfigurationElement element;
-
+	private IConfigurationElement element;
+	
 	public DashboardPageProxy() {
 		super(null, "default", "default");
 	}

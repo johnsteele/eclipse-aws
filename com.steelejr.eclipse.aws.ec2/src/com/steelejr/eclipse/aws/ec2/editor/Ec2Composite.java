@@ -44,7 +44,6 @@ public class Ec2Composite {
 		my_instances = new ArrayList<Instance>();
 		
 		for (Reservation reservation : reservations) {
-	
 			 List<Instance> instances = reservation.getInstances();
 			 for (Instance instance : instances) {
 				 my_instances.add(instance);

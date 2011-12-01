@@ -11,7 +11,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: com.amazonaws.services.ec2,
  com.amazonaws.services.ec2.model,
- com.steelejr.eclipse.aws
+ com.steelejr.eclipse.aws,
+ com.steelejr.eclipse.aws.auth
 Bundle-ClassPath: lib/aws-java-sdk-1.2.1.jar,
  .,
  lib/commons-codec-1.3.jar,

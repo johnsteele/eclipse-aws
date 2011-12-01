@@ -18,6 +18,7 @@ import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
+import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -26,12 +27,12 @@ import org.eclipse.ui.forms.widgets.Section;
 
 import com.amazonaws.services.ec2.model.Instance;
 import com.steelejr.eclipse.aws.ec2.Activator;
-import com.steelejr.eclipse.aws.util.Ec2Images;
+import com.steelejr.eclipse.aws.ec2.util.Ec2Images;
 
 public class Ec2MasterDetailsBlock extends MasterDetailsBlock {
 
 	/**
-	 * the
+	 * The form page owning this master details block.
 	 */
 	private FormPage my_page;
 	
@@ -51,11 +52,17 @@ public class Ec2MasterDetailsBlock extends MasterDetailsBlock {
 
 	@Override
 	protected void createMasterPart(final IManagedForm managedForm, Composite parent) {
+		
 		// section initialize
-		FormToolkit toolkit = managedForm.getToolkit();
-	
 		ScrolledForm form = managedForm.getForm();
-		Section section = toolkit.createSection(form.getBody(), Section.TWISTIE
+		FormToolkit toolkit = managedForm.getToolkit();		
+		
+//		GridLayout layout = new GridLayout ();
+//		layout.numColumns = 2;
+//		layout.makeColumnsEqualWidth = true;
+//		form.getBody().setLayout(layout);
+		
+		Section section = toolkit.createSection(parent, Section.TWISTIE
 				| Section.TITLE_BAR | Section.EXPANDED);
 		section.setText("Instances");
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup()
@@ -88,7 +95,7 @@ public class Ec2MasterDetailsBlock extends MasterDetailsBlock {
 		item = new ToolItem(bar, SWT.PUSH);
 		item.setImage(PlatformUI.getWorkbench().getSharedImages()
 				.getImage(ISharedImages.IMG_TOOL_DELETE));
-		item.setToolTipText("Delete currenlty selected EC2 instance");
+		item.setToolTipText("Delete selected EC2 instance");
 		section.setTextClient(bar);
 
 		FormText description = toolkit.createFormText(section, false);
@@ -130,40 +137,48 @@ public class Ec2MasterDetailsBlock extends MasterDetailsBlock {
 		stopButton.setImage(Activator.getDefault().getImageRegistry()
 				.get(Ec2Images.IMG_LAUNCH_STOP));
 
+		
+		final SectionPart sectionPart = new SectionPart(section);
+		managedForm.addPart(sectionPart);
+		
+		// tree selection listener
 		my_ec2Comp.getViewer().addSelectionChangedListener(
 				new ISelectionChangedListener() {
 
 					@Override
 					public void selectionChanged(SelectionChangedEvent event) {
-						if (event.getSelection() instanceof IStructuredSelection) {
-							IStructuredSelection selection = (IStructuredSelection) event
-									.getSelection();
-							Object o = selection.getFirstElement();
-							if (o instanceof Instance) {
-								Instance instance = (Instance) o;
-								// If a different instance was selected.
-								if (instance != my_instance) {
-									my_instance = instance;
-									// Update buttons.
-									startButton.setEnabled(my_instance
-											.getState().getName()
-											.equals("stopped"));
-									stopButton.setEnabled(my_instance
-											.getState().getName()
-											.equals("running"));
-									// Update details.
-									managedForm.fireSelectionChanged(spart, event.getSelection());
-									//updateDetails();
-								}
-							}
-						}
+						
+						managedForm.fireSelectionChanged(sectionPart, event.getSelection());
+//						if (event.getSelection() instanceof IStructuredSelection) {
+//							IStructuredSelection selection = (IStructuredSelection) event
+//									.getSelection();
+//							Object o = selection.getFirstElement();
+//							if (o instanceof Instance) {
+//								Instance instance = (Instance) o;
+//								// If a different instance was selected.
+//								if (instance != my_instance) {
+//									my_instance = instance;
+//									// Update buttons.
+//									startButton.setEnabled(my_instance
+//											.getState().getName()
+//											.equals("stopped"));
+//									stopButton.setEnabled(my_instance
+//											.getState().getName()
+//											.equals("running"));
+//									// Update details.
+//									//managedForm.fireSelectionChanged(sectionPart, event.getSelection());
+//								}
+//							}
+//						}
 					}
 				});
+		
+		sashForm.setOrientation(SWT.HORIZONTAL);
 	}
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-
+		detailsPart.registerPage(Instance.class, new Ec2DetailsComposite());
 	}
 
 	@Override

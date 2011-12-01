@@ -9,5 +9,14 @@
             title="Ec2">
       </dashboardPage>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="com.steelejr.eclipse.aws.AwsToolkitPage"
+            class="com.steelejr.eclipse.aws.ec2.preferences.Ec2Preferences"
+            id="com.steelejr.eclipse.aws.ec2.Ec2AccountPreferencePage"
+            name="Ec2">
+      </page>
+   </extension>
 
 </plugin>

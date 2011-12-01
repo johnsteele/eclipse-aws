@@ -5,7 +5,7 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.steelejr.eclipse.aws.util.Ec2Images;
+import com.steelejr.eclipse.aws.ec2.util.Ec2Images;
 
 /**
  * The activator class controls the plug-in life cycle

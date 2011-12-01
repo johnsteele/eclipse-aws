@@ -40,17 +40,18 @@ public class PreferenceStoreAccountInfo extends AbstractAccountInfo {
     /* (non-Javadoc)
 	 * @see com.steelejr.eclipse.aws.auth.AccountInfo2#getUserId()
 	 */
-    @Override
-	public String getUserId() {
-        return decodeString(preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.P_USER_ID)));
-    }
+	// For now I'll just do single user.
+//    @Override
+//	public String getUserId() {
+//        return decodeString(preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.P_USER_ID)));
+//    }
 
     /* (non-Javadoc)
 	 * @see com.steelejr.eclipse.aws.auth.AccountInfo2#getAccessKey()
 	 */
     @Override
 	public String getAccessKey() {
-        return decodeString(preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.P_ACCESS_KEY)));
+        return decodeString(preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.ACCESS_KEY_ID)));
     }
 
     /* (non-Javadoc)
@@ -58,7 +59,7 @@ public class PreferenceStoreAccountInfo extends AbstractAccountInfo {
 	 */
     @Override
 	public String getSecretKey() {
-        return decodeString(preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.P_SECRET_KEY)));
+        return decodeString(preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.PRIVATE_ACCESS_KEY_ID)));
     }
 
     /* (non-Javadoc)
@@ -66,7 +67,7 @@ public class PreferenceStoreAccountInfo extends AbstractAccountInfo {
 	 */
     @Override
 	public String getEc2PrivateKeyFile() {
-        return preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.P_PRIVATE_KEY_FILE));
+        return preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.KEY_PAIR_FILE));
     }
 
     /* (non-Javadoc)
@@ -74,7 +75,7 @@ public class PreferenceStoreAccountInfo extends AbstractAccountInfo {
 	 */
     @Override
 	public String getEc2CertificateFile() {
-        return preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.P_CERTIFICATE_FILE));
+        return preferenceStore.getString(getAccountPreferenceName(PreferenceConstants.CERTIFICATE_FILE));
     }
 
     /* (non-Javadoc)

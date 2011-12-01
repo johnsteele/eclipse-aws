@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="com.steelejr.eclipse.aws.dashboard.dashboardPage">
+      <dashboardPage
+            class="com.steelejr.eclipse.aws.marketplace.ui.MarketplacePage"
+            id="marketpace"
+            title="Marketplace">
+      </dashboardPage>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <stickyView
+            closeable="true"
+            id="com.steelejr.eclipse.aws.marketplace.view1"
+            location="BOTTOM"
+            moveable="true">
+      </stickyView>
+      <view
+            class="com.steelejr.eclipse.aws.marketplace.MyView"
+            id="com.steelejr.eclipse.aws.marketplace.view1"
+            name="ProgressDemoView"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>

@@ -1,4 +1,4 @@
-package com.steelejr.eclipse.aws.util;
+package com.steelejr.eclipse.aws.ec2.util;
 
 
 /**

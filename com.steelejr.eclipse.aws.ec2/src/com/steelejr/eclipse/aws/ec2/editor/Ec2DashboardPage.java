@@ -6,15 +6,19 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.forms.FormColors;
 import org.eclipse.ui.forms.IFormColors;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormText;
@@ -25,7 +29,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import com.amazonaws.services.ec2.model.Instance;
 import com.steelejr.eclipse.aws.dashboard.editor.DashboardPageProxy;
 import com.steelejr.eclipse.aws.ec2.Activator;
-import com.steelejr.eclipse.aws.util.Ec2Images;
+import com.steelejr.eclipse.aws.ec2.util.Ec2Images;
 
 public class Ec2DashboardPage extends DashboardPageProxy {
 	
@@ -36,6 +40,8 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 	private Ec2MasterDetailsBlock my_block;
 	private Ec2DetailsComposite my_ec2Details;
 	private IWorkbenchPartSite my_site;
+	private IManagedForm my_form;
+	
 	/**
 	 * The currently selected instance.
 	 */
@@ -45,24 +51,25 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 	@Override
 	public void createForm(IManagedForm managedForm, IWorkbenchPartSite site) {		
 		
+		my_form = managedForm;
 		my_site = site;
 		
 		/* Form and Toolkit */
-		ScrolledForm form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
+		ScrolledForm form = my_form.getForm();
+		FormToolkit toolkit = my_form.getToolkit();
 		form.setText("Ec2");
-		GridLayout layout = new GridLayout ();
-		layout.numColumns = 2;
-		layout.makeColumnsEqualWidth = true;
-		form.getBody().setLayout(layout);
+//		GridLayout layout = new GridLayout ();
+//		layout.numColumns = 2;
+//		layout.makeColumnsEqualWidth = true;
+//		form.getBody().setLayout(layout);
 		
 		/* Header Composite */
 		createHeader (form, toolkit);
 		
 		/* Instances Section */
 		//createInstanceSection (form, toolkit);
-		my_block = new Ec2MasterDetailsBlock(this);
-		my_block.createContent(managedForm);
+		//my_block = new Ec2MasterDetailsBlock(this);
+		//my_block.createContent(managedForm);
 		
 		/* Details Section */
 		//createDetailsSection (form, toolkit);
@@ -76,8 +83,41 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 	 * @param toolkit The shared toolkit instance.
 	 */
 	private void createHeader (ScrolledForm form, FormToolkit toolkit) {
-		//Composite headClient = toolkit.createComposite(form.getForm().getHead(), SWT.NULL);
 		
+		// Background color
+		FormColors colors = toolkit.getColors();
+		Color top = colors.getColor(IFormColors.H_GRADIENT_END);
+		Color bot = colors.getColor(IFormColors.H_GRADIENT_START);
+		form.getForm().setTextBackground(new Color [] {top, bot}, new int[] {100}, true); 
+		//toolkit.decorateFormHeading(form.getForm());		
+		
+		// Composite
+		Composite headClient = toolkit.createComposite(form.getForm().getHead(), SWT.NULL);
+		GridLayout layout   = new GridLayout();
+		layout.marginWidth  = 0;
+		layout.marginHeight = 0;
+		layout.numColumns   = 7;
+		headClient.setLayout(layout);
+		
+		// Account
+		Label l = toolkit.createLabel(headClient, "Account:", toolkit.getBorderStyle());
+		Combo c = new Combo (headClient, SWT.DROP_DOWN);
+		bindAccountInfo (c);
+		
+		// Instances
+		
+		
+		form.setHeadClient(headClient);
+		toolkit.paintBordersFor(headClient);
+	}
+	
+	
+	/**
+	 * Data-binds the provided combo with the AWS accounts.
+	 * 
+	 * @param combo The combo to bind with accounts.
+	 */
+	private void bindAccountInfo (Combo combo) {
 		
 	}
 	
@@ -213,6 +253,6 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 		toolkit.paintBordersFor(client);
 		
 		// Table of details.
-		my_ec2Details = new Ec2DetailsComposite(client);
+		//my_ec2Details = new Ec2DetailsComposite(client);
 	}
 }

@@ -15,7 +15,7 @@ public abstract class AbstractAccountInfo {
 	 * 
 	 * @return The currently configured AWS user account ID.
 	 */
-	public abstract String getUserId();
+	//public abstract String getUserId();
 	
 	/**
 	 * Returns the currently configured AWS user access key.

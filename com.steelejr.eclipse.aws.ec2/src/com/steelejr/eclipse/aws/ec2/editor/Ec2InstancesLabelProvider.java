@@ -5,7 +5,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.amazonaws.services.ec2.model.Instance;
 import com.steelejr.eclipse.aws.ec2.Activator;
-import com.steelejr.eclipse.aws.util.Ec2Images;
+import com.steelejr.eclipse.aws.ec2.util.Ec2Images;
 
 public class Ec2InstancesLabelProvider extends LabelProvider {
 

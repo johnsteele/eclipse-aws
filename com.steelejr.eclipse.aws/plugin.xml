@@ -21,8 +21,16 @@
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="com.steelejr.eclipse.aws.preferences.PreferenceInitializer">
+            class="com.steelejr.eclipse.aws.preferences.AwsPreferenceInitializer">
       </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.steelejr.eclipse.aws.preferences.AwsPreferencePage"
+            id="com.steelejr.eclipse.aws.AwsToolkitPage"
+            name="AWS Toolkit">
+      </page>
    </extension>
 
 </plugin>

@@ -33,7 +33,7 @@ public class Ec2Composite {
 	
 	
 	public Ec2Composite (Composite parent) {
-		viewer = new TreeViewer (parent); //SWT.H_SCROLL | SWT.V_SCROLL | SWT.SINGLE);
+		viewer = new TreeViewer (parent);
 		
 		
 		AmazonEC2 ec2 = AWSCorePlugin.getDefault().getEc2Client();
@@ -49,7 +49,7 @@ public class Ec2Composite {
 				 my_instances.add(instance);
 			 }
 		}
-		
+	
 		viewer.setContentProvider(new Ec2InstancesContentProvider());
 		viewer.setLabelProvider(new Ec2InstancesLabelProvider());
 		viewer.setInput(my_instances);

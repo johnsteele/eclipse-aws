@@ -68,5 +68,9 @@ public class Activator extends AbstractUIPlugin {
 		path = new Path ("icons/header-gradient.png");
 		url = FileLocator.find(bundle, path, null);
 		reg.put("header-gradient", ImageDescriptor.createFromURL(url).createImage());
+		
+		path = new Path ("icons/projects/wiz_new_server_project.gif");
+		url = FileLocator.find(bundle, path, null);
+		reg.put("new_server_project", ImageDescriptor.createFromURL(url).createImage());
 	}
 }

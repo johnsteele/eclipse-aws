@@ -8,6 +8,16 @@ public class PreferenceConstants {
 	public static final String P_ACCOUNT_IDS = "accountIds";
 	
 	/**
+	 * Preference key for the time account was last modified.
+	 */
+	public static final String DATE_MODIFIED = "lastModifiedTimeStamp";
+	
+	/**
+	 * Preference key for setting account active on startup.
+	 */
+	public static final String SET_ACCOUNT_ACTIVE = "accountActive";
+	
+	/**
 	 * Preference key for the currently selected account id. Used to fetch all
 	 * other account details.
 	 */
@@ -16,7 +26,7 @@ public class PreferenceConstants {
 	/**
 	 * Preference key for the user-visible name for an account: just a memento.
 	 */
-	public static final String P_ACCOUNT_NAME = "accountName";
+	public static final String ACCOUNT_NAME = "accountName";
 	public static final String DEFAULT_ACCOUNT_NAME = "default";
 	
 	/** Preference key for a users' AWS user ID. */

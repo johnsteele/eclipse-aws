@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://steelejr.com/eclipse/aws/updatesite">
+      Eclipse update site for Amazon AWS tool support.
+   </description>
+   <feature url="features/com.steelejr.eclipse.aws.feature_1.0.0.qualifier.jar" id="com.steelejr.eclipse.aws.feature" version="1.0.0.qualifier"/>
+</site>

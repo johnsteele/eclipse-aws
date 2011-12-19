@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.steelejr.eclipse.aws.feature_1.0.0.qualifier.jar" id="com.steelejr.eclipse.aws.feature" version="1.0.0.qualifier">
+      <category name="com.steelejr.eclipse.aws.feature.category"/>
+   </feature>
+   <category-def name="com.steelejr.eclipse.aws.feature.category" label="AWS Tools"/>
+</site>

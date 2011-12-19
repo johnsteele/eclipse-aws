@@ -22,7 +22,7 @@ public class AwsDashboardEditor extends FormEditor {
 	protected void addPages() {
 		
 		try {
-			addPage(new WelcomePage(this, "welcome", "Welcome"));
+			addPage(new WelcomePage(this, "overview", "Overview"));
 			loadPageContributions();
 		} catch (PartInitException e) {
 			Logger.INSTANCE.log(new Status(IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage()));

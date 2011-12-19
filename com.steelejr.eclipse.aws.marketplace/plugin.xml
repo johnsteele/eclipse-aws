@@ -4,9 +4,9 @@
    <extension
          point="com.steelejr.eclipse.aws.dashboard.dashboardPage">
       <dashboardPage
-            class="com.steelejr.eclipse.aws.marketplace.editor.MarketplacePage"
-            id="marketpace"
-            title="Marketplace">
+            class="com.steelejr.eclipse.aws.marketplace.wizard.NewFeaturePage"
+            id="newfeatures"
+            title="New Features">
       </dashboardPage>
    </extension>
    <extension

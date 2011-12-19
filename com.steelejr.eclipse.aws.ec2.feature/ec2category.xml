@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.steelejr.eclipse.aws.ec2.feature_1.0.0.qualifier.jar" id="com.steelejr.eclipse.aws.ec2.feature" version="1.0.0.qualifier">
+      <category name="com.steelejr.eclipse.aws.ec2"/>
+   </feature>
+   <category-def name="com.steelejr.eclipse.aws.ec2" label="Amazon Ec2"/>
+</site>

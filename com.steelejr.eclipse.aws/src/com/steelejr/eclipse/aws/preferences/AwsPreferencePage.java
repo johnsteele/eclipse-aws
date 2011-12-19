@@ -1,5 +1,7 @@
 package com.steelejr.eclipse.aws.preferences;
 
+import java.util.Date;
+
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -20,6 +22,11 @@ import com.steelejr.eclipse.aws.auth.PreferenceConstants;
 
 public class AwsPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage {
+	
+	/**
+	 * The name for the account.
+	 */
+	private Text my_nameText;
 	
 	/**
 	 * Access key ID.
@@ -60,6 +67,14 @@ public class AwsPreferencePage extends PreferencePage implements
 		comp.setLayout(new GridLayout (2, false));
 		
 		IPreferenceStore store = AWSCorePlugin.getDefault().getPreferenceStore();
+		
+		// Account Name
+		Label name = new Label(comp, SWT.NONE);
+		name.setText("Name: ");
+		my_nameText = new Text(comp, SWT.BORDER);
+		my_nameText.setText(store.getString(PreferenceConstants.ACCOUNT_NAME));
+		my_nameText.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
+		
 		
 		// Access Key
 		Label label = new Label(comp, SWT.NONE);
@@ -105,6 +120,7 @@ public class AwsPreferencePage extends PreferencePage implements
 	protected void performDefaults() {
 		IPreferenceStore store = AWSCorePlugin.getDefault().getPreferenceStore();
 		
+		my_nameText.setText(store.getDefaultString(PreferenceConstants.ACCOUNT_NAME));
 		my_accessKeyText.setText(store.getDefaultString(PreferenceConstants.ACCESS_KEY_ID));
 		my_privateAccessKeyIdText.setText(store.getDefaultString(PreferenceConstants.PRIVATE_ACCESS_KEY_ID));
 		my_showAccessKeyId.setSelection(store.getBoolean(PreferenceConstants.SHOW_PRIVATE_ACCESS_KEY));
@@ -115,9 +131,11 @@ public class AwsPreferencePage extends PreferencePage implements
 	@Override
 	public boolean performOk() {
 		IPreferenceStore store = AWSCorePlugin.getDefault().getPreferenceStore();
-		store.setValue(PreferenceConstants.ACCESS_KEY_ID, my_accessKeyText.getText());
-		store.setValue(PreferenceConstants.PRIVATE_ACCESS_KEY_ID, my_privateAccessKeyIdText.getText());
+		store.setValue(PreferenceConstants.ACCOUNT_NAME, my_nameText.getText().trim());
+		store.setValue(PreferenceConstants.ACCESS_KEY_ID, my_accessKeyText.getText().trim());
+		store.setValue(PreferenceConstants.PRIVATE_ACCESS_KEY_ID, my_privateAccessKeyIdText.getText().trim());
 		store.setValue(PreferenceConstants.SHOW_PRIVATE_ACCESS_KEY, my_showAccessKeyId.getSelection());
+		store.setValue(PreferenceConstants.DATE_MODIFIED, new Date().toString());
 		return super.performOk();
 	}
 }

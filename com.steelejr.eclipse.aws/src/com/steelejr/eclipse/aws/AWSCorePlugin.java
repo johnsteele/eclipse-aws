@@ -1,5 +1,7 @@
 package com.steelejr.eclipse.aws;
 
+import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -120,5 +122,14 @@ public class AWSCorePlugin extends AbstractUIPlugin {
 	 */
 	public static AWSCorePlugin getDefault() {
 		return plugin;
+	}
+	
+	
+	@Override
+	protected void initializeImageRegistry(ImageRegistry reg) {
+		super.initializeImageRegistry(reg);
+		
+		Image image = AWSCorePlugin.imageDescriptorFromPlugin(PLUGIN_ID, "icons/common/refresh.gif").createImage();
+		reg.put("refresh", image);
 	}
 }

@@ -1,7 +1,5 @@
-package com.steelejr.eclipse.aws.marketplace;
+package com.steelejr.eclipse.aws.provisioning;
 
-import org.eclipse.jface.resource.ImageRegistry;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -11,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.steelejr.eclipse.aws.marketplace"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.steelejr.eclipse.aws.provisioning"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -47,21 +45,6 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
-	}
-	
-	
-	@Override
-	protected void initializeImageRegistry(ImageRegistry reg) {
-		super.initializeImageRegistry(reg);
-		
-		Image img = Activator.imageDescriptorFromPlugin(PLUGIN_ID, "icons/wizban/install_wiz.gif").createImage();
-		reg.put("new_feature", img);
-		
-		img = Activator.imageDescriptorFromPlugin(PLUGIN_ID, "icons/common/refresh.gif").createImage();
-		reg.put ("refresh", img);
-		
-		img = Activator.imageDescriptorFromPlugin(PLUGIN_ID, "icons/features/new_updateSite.gif").createImage();
-		reg.put ("new_updateSite", img);
 	}
 
 }

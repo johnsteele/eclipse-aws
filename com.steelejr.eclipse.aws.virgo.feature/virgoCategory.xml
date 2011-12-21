@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.steelejr.eclipse.aws.virgo.feature_1.0.0.qualifier.jar" id="com.steelejr.eclipse.aws.virgo.feature" version="1.0.0.qualifier">
+      <category name="com.steeljr.eclipse.aws.virgo.feature.category"/>
+   </feature>
+   <category-def name="com.steeljr.eclipse.aws.virgo.feature.category" label="Virgo Category">
+      <description>
+         Eclipse plug-ins for Virgo support on Amazon AWS.
+      </description>
+   </category-def>
+</site>

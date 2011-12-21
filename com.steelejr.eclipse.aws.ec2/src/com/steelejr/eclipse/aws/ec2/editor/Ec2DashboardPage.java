@@ -302,10 +302,14 @@ public class Ec2DashboardPage extends DashboardPageProxy {
 	
 	@Override
 	public void setFocus() {
-		TreeItem item = my_ec2Comp.getViewer().getTree().getItem(0);
-		my_ec2Comp.getViewer().getTree().setSelection(item);
-		// This is weird, but necessary, I think, b/c setting the selection isn't 
-		// firing a selection change event to notify the instance details composite.
-		my_ec2Comp.getViewer().setSelection(my_ec2Comp.getViewer().getSelection());
+		int items = my_ec2Comp.getViewer().getTree().getItemCount();
+		if (items > 0) { 
+			TreeItem item = my_ec2Comp.getViewer().getTree().getItem(0);
+			my_ec2Comp.getViewer().getTree().setSelection(item);
+		
+			// This is weird, but necessary, I think, b/c setting the selection isn't 
+			// firing a selection change event to notify the instance details composite.
+			my_ec2Comp.getViewer().setSelection(my_ec2Comp.getViewer().getSelection());
+		}
 	}
 }

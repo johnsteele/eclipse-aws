@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
+import org.eclipse.equinox.p2.ui.AcceptLicensesWizardPage;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -40,6 +41,7 @@ public class NewEc2FeaturesSection {
 	 * The table of available download-able extensions.
 	 */
 	private Table table;
+	
 
 	/**
 	 * Creates a DownloadExtensionComposite with the provided parent and style.
@@ -130,25 +132,32 @@ public class NewEc2FeaturesSection {
 	
 	
 	private void addSelectionListener () {
-		table.addSelectionListener(new SelectionAdapter() {
+		table.addListener(SWT.Selection, new Listener() {
+			
 			@Override
-			public void widgetSelected(SelectionEvent e) {
+			public void handleEvent(Event event) {
 				
-				TableItem item = table.getItem(new Point (e.x, e.y));
+				// WOW! For some reason getItem (new Point (..)) returns the same TableItem every time!
+				// But it works perfectly with the mouse hover routine. Eeek!
+				// TODO: Fix it! or figure it out.
+				TableItem[] item = table.getSelection(); // getItem(new Point (event.x, event.y));
 				if (item == null) 
 					return;
 				
 				// Get selected Installable Unit.
-				IInstallableUnit unitToInstall = (IInstallableUnit) item.getData();
+				IInstallableUnit unitToInstall = (IInstallableUnit) item[0].getData();
 				
-				installInstallableUnit (unitToInstall);
+				// TODO: It should be an array that is stored incase the item 
+				// selected is a feature.
+				// This is just a work around for now.				
+				installInstallableUnit (new IInstallableUnit [] { unitToInstall });
 			}
 		});
 	}
 	
 	
-	private void installInstallableUnit (IInstallableUnit unitToInstall) {
-		
+	private void installInstallableUnit (IInstallableUnit[] unitsToInstall) {
+		showLicense(unitsToInstall);
 	}
 	
 
@@ -160,7 +169,7 @@ public class NewEc2FeaturesSection {
 				TableItem item = table.getItem(new Point(event.x, event.y));
 				if (item == null)
 					return;
-
+				
 				Color hover = Activator.getDefault().getWorkbench()
 						.getDisplay()
 						.getSystemColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT);
@@ -205,20 +214,20 @@ public class NewEc2FeaturesSection {
 //			item.setText(2, version);
 //		}
 
-		List<IInstallableUnit> installed = NewFeatureUtil.getNewFeatures();
+		List<IInstallableUnit> newFeatures = NewFeatureUtil.getNewFeatures();
+	
 
-		for (IInstallableUnit installableUnit : installed) {
+		for (IInstallableUnit installableUnit : newFeatures) {
 
 			String name = installableUnit.getProperty(IInstallableUnit.PROP_NAME, null);
 			String version = installableUnit.getVersion().toString();
+			
 			if (version.length() > 20)
 				version = version.substring(0, 19);
 
 			TableItem item = new TableItem(table, SWT.NULL);
 			item.setData(installableUnit);
-			item.setImage(0,
-					Activator.getDefault().getImageRegistry()
-							.get("new_feature"));
+			item.setImage(0, Activator.getDefault().getImageRegistry().get("new_feature"));
 
 			item.setFont(1, NAME_FONT);
 			item.setText(1, name);
@@ -231,8 +240,8 @@ public class NewEc2FeaturesSection {
 	/**
 	 * A helper method to show the license page.
 	 */
-	private void showLicense () {
-		LicenseWizard wizard = new LicenseWizard ();
+	private void showLicense (IInstallableUnit[] unitsToInstall) {
+		LicenseWizard wizard = new LicenseWizard (unitsToInstall);
 		WizardDialog dialog = new WizardDialog(Activator.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(), wizard);
 		if (dialog.open() !=  Window.CANCEL) {
 			

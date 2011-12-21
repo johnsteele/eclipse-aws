@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description url="http://steelejr.com/eclipse/aws/updatesite">
-      Eclipse update site for Amazon AWS tool support.
-   </description>
-   <feature url="features/com.steelejr.eclipse.aws.feature_1.0.0.qualifier.jar" id="com.steelejr.eclipse.aws.feature" version="1.0.0.qualifier"/>
+   <feature url="features/com.steelejr.eclipse.aws.feature_1.0.0.201112200905.jar" id="com.steelejr.eclipse.aws.feature" version="1.0.0.201112200905">
+      <category name="com.steelejr.eclipse.aws.updatesite.category"/>
+   </feature>
+   <feature url="features/com.steelejr.eclipse.aws.ec2.feature_1.0.0.201112200905.jar" id="com.steelejr.eclipse.aws.ec2.feature" version="1.0.0.201112200905">
+      <category name="com.steelejr.eclipse.aws.updatesite.category"/>
+   </feature>
+   <category-def name="com.steelejr.eclipse.aws.updatesite.category" label="Amazon AWS Tool Suite">
+      <description>
+         Eclipse plug-ins for Amazon AWS.
+      </description>
+   </category-def>
 </site>

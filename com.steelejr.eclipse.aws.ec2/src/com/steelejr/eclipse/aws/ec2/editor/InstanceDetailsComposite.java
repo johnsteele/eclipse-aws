@@ -51,7 +51,7 @@ public class InstanceDetailsComposite implements ISelectionChangedListener {
 		my_table.setLayout(new GridLayout (2, true));
 		my_table.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
 		my_table.setLinesVisible(true);
-		my_table.setHeaderVisible(true);
+		//my_table.setHeaderVisible(true);
 		
 		// Property and Value columns.
 		TableColumn column = new TableColumn(my_table, SWT.LEFT);

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.steelejr.eclipse.aws.ec2.feature"
-      label="Feature"
+      label="Ec2 Tools"
       version="1.0.0.qualifier"
       provider-name="STEELEJR">
 
    <description url="http://www.steelejr.com/ec2/feature/description">
-      This Ec2 feature provides Eclipse plug-ins and AWS support for the development of 
-Virgo application.
+      This Ec2 feature provides Eclipse plug-ins and AWS support for
+the development of applications deplyed to a Virgo application server.
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -19,18 +19,22 @@ Virgo application.
    </license>
 
    <requires>
-      <import feature="com.steelejr.eclipse.aws.feature" version="1.0.0.qualifier" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="com.steelejr.eclipse.aws.dashboard" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.ui.forms" version="3.5.100" match="greaterOrEqual"/>
+      <import plugin="com.steelejr.eclipse.aws" version="1.0.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
-         id="com.steelejr.eclipse.aws.virgo"
+         id="com.steelejr.eclipse.aws.ec2"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.steelejr.eclipse.aws.ec2"
+         id="com.steelejr.eclipse.aws.server"
          download-size="0"
          install-size="0"
          version="0.0.0"

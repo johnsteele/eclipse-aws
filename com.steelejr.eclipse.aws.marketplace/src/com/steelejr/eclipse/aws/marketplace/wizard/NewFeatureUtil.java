@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,7 +20,12 @@ import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.equinox.p2.core.ProvisionException;
 import org.eclipse.equinox.p2.engine.IProfile;
 import org.eclipse.equinox.p2.engine.IProfileRegistry;
+import org.eclipse.equinox.p2.engine.IProvisioningPlan;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
+import org.eclipse.equinox.p2.metadata.IRequirement;
+import org.eclipse.equinox.p2.metadata.expression.IMatchExpression;
+import org.eclipse.equinox.p2.operations.ProfileChangeOperation;
+import org.eclipse.equinox.p2.planner.IPlanner;
 import org.eclipse.equinox.p2.query.IQuery;
 import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.query.QueryUtil;
@@ -61,6 +67,11 @@ public class NewFeatureUtil {
 	 */
 	public static final String P_SITE_URL = "url";
 	
+	/**
+	 * The provisioning planner for the running system.
+	 */
+	private IProvisioningPlan provisioningPlan;
+	
 	
 	public static List<IInstallableUnit> getNewFeatures () {
 		
@@ -78,9 +89,9 @@ public class NewFeatureUtil {
 			List<IInstallableUnit> featuresFromSite = getIUforSite(updateSites.get(i));
 			
 			for (IInstallableUnit unit : featuresFromSite) {
-				//if (!installedFeatures.contains(unit)) {
+				if (!installedFeatures.contains(unit)) {
 					newFeatures.add(unit);
-				//}
+				}
 			}
 		}
 		
@@ -116,13 +127,36 @@ public class NewFeatureUtil {
 			// Get the Running System Profile.
 			IProfile runningSystemProfile = profileRegistry.getProfile(IProfileRegistry.SELF);
 			
-			// Query all Installable Units available at the site.
-			IQuery<IInstallableUnit> query = QueryUtil.createIUAnyQuery();
+			// Query for all Installable Units available at the site.
+			IQuery<IInstallableUnit> query = QueryUtil.createIUCategoryQuery(); 
 			
+			// Do the query on the repository.
 			IQueryResult<IInstallableUnit> collector = metaRepository.query(query, new NullProgressMonitor());
-			
+						
+			// Go through each installable unit.
 			for (IInstallableUnit unit : collector.toUnmodifiableSet()) {
-				features.add(unit);
+				
+				// Query this installable unit for all its category members.
+				query = QueryUtil.createIUCategoryMemberQuery(unit);
+				
+				// Run the query.
+				IQueryResult<IInstallableUnit> result = metaRepository.query(query, new NullProgressMonitor());
+				
+				// Go through each category member.
+				for (IInstallableUnit unit2 : result.toUnmodifiableSet()) {
+					// Add the member to the list.
+					if (!features.contains(unit2)) {
+							features.add(unit2);			
+					}
+				}
+				
+//				Collection<IRequirement> requirements = unit.getRequirements();
+//				for (IRequirement requirement : requirements) {
+//					
+//					IMatchExpression<IInstallableUnit> matches = requirement.getMatches();
+//					
+//				}
+				//features.add(unit);
 				//System.out.println(unit.getProperty(IInstallableUnit.PROP_NAME, null));
 			}
 			
@@ -151,7 +185,7 @@ public class NewFeatureUtil {
 		
 		List<String> sites = new ArrayList<String>();
 
-		URL url = Activator.getDefault().getBundle().getEntry("updateSites.xml");
+		URL url = Activator.getDefault().getBundle().getEntry("ec2UpdateSite.xml");
 //		Bundle bundle = Platform.getBundle(Activator.PLUGIN_ID);
 //		IPath path = new Path("updateSites.xml");
 		
@@ -165,6 +199,7 @@ public class NewFeatureUtil {
 			absoluteURL = FileLocator.resolve(url);
 			// get the file.
 			File file = new File(absoluteURL.getFile());
+			
 			//InputStream input = platformURL.openStream();
 			
 			
@@ -232,12 +267,14 @@ public class NewFeatureUtil {
 				.getBundleContext()
 				.getServiceReference(IProvisioningAgent.SERVICE_NAME);
 		if (agentSr == null) {
+			System.out.println("Provisiong Agent service is unavailable.");
 			return null;
 		}
 
 		// Get the Agent Service.
 		IProvisioningAgent agent = (IProvisioningAgent) Activator.getDefault()
 				.getBundle().getBundleContext().getService(agentSr);
+		
 
 		// Get the Profile Registry.
 		IProfileRegistry profileRegistry = (IProfileRegistry) agent
@@ -246,6 +283,7 @@ public class NewFeatureUtil {
 		// Get the Running System Profile.
 		IProfile runningSystemProfile = profileRegistry
 				.getProfile(IProfileRegistry.SELF);
+		
 
 		// Query all Installable Units.
 		IQuery<IInstallableUnit> query = QueryUtil.createIUAnyQuery();
@@ -255,12 +293,18 @@ public class NewFeatureUtil {
 		// Go through installed features, add them to installed list.
 		Iterator<IInstallableUnit> iter = collector.iterator();
 		while (iter.hasNext()) {
-			installedList.add(iter.next());
+			IInstallableUnit unit = iter.next();
+			if (!installedList.contains(unit)) { 
+				installedList.add(unit);
+			}
 		}
 
 		// Un-get the Agent Service.
 		Activator.getDefault().getBundle().getBundleContext()
 				.ungetService(agentSr);
+		
+		
+	
 		
 		
 

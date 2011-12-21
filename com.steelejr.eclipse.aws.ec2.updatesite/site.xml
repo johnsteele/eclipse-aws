@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.steelejr.eclipse.aws.ec2.feature_1.0.0.201112201042.jar" id="com.steelejr.eclipse.aws.ec2.feature" version="1.0.0.201112201042">
+      <category name="com.steelejr.eclipse.aws.ec2.category"/>
+   </feature>
+   <feature url="features/com.steelejr.eclipse.aws.virgo.feature_1.0.0.201112201042.jar" id="com.steelejr.eclipse.aws.virgo.feature" version="1.0.0.201112201042">
+      <category name="com.steelejr.eclipse.aws.ec2.category"/>
+   </feature>
+   <category-def name="com.steelejr.eclipse.aws.ec2.category" label="Amazon AWS - Ec2 Tools">
+      <description>
+         Eclipse plug-ins for Amazon AWS Ec2.
+      </description>
+   </category-def>
+</site>

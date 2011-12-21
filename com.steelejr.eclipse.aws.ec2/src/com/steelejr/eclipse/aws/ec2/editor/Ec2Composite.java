@@ -13,6 +13,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Instance;
@@ -38,7 +39,12 @@ public class Ec2Composite {
 		
 		AmazonEC2 ec2 = AWSCorePlugin.getDefault().getEc2Client();
 		DescribeInstancesResult result = new DescribeInstancesResult();
-		result = ec2.describeInstances();
+		try {
+			result = ec2.describeInstances();
+		} catch (AmazonClientException e) {
+			// Undable to make connection to the client.
+			// TODO: Log this!
+		} 
 		
 		List<Reservation> reservations = result.getReservations();
 		my_instances = new ArrayList<Instance>();

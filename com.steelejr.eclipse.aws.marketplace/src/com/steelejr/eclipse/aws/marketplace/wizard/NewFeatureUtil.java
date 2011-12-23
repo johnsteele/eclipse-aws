@@ -13,24 +13,36 @@ import java.util.List;
 
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.equinox.internal.p2.ui.ProvisioningOperationRunner;
 import org.eclipse.equinox.internal.p2.updatesite.metadata.UpdateSiteMetadataRepositoryFactory;
 import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.equinox.p2.core.ProvisionException;
+import org.eclipse.equinox.p2.engine.IEngine;
 import org.eclipse.equinox.p2.engine.IProfile;
 import org.eclipse.equinox.p2.engine.IProfileRegistry;
 import org.eclipse.equinox.p2.engine.IProvisioningPlan;
+import org.eclipse.equinox.p2.engine.PhaseSetFactory;
+import org.eclipse.equinox.p2.engine.ProvisioningContext;
 import org.eclipse.equinox.p2.metadata.IInstallableUnit;
 import org.eclipse.equinox.p2.metadata.IRequirement;
 import org.eclipse.equinox.p2.metadata.expression.IMatchExpression;
 import org.eclipse.equinox.p2.operations.ProfileChangeOperation;
+import org.eclipse.equinox.p2.operations.ProvisioningJob;
 import org.eclipse.equinox.p2.planner.IPlanner;
+import org.eclipse.equinox.p2.planner.IProfileChangeRequest;
 import org.eclipse.equinox.p2.query.IQuery;
 import org.eclipse.equinox.p2.query.IQueryResult;
 import org.eclipse.equinox.p2.query.QueryUtil;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepository;
 import org.eclipse.equinox.p2.repository.metadata.IMetadataRepositoryManager;
+import org.eclipse.equinox.p2.ui.ProvisioningUI;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
@@ -302,12 +314,7 @@ public class NewFeatureUtil {
 		// Un-get the Agent Service.
 		Activator.getDefault().getBundle().getBundleContext()
 				.ungetService(agentSr);
-		
-		
 	
-		
-		
-
 		return installedList;
 	}
 	
@@ -338,5 +345,55 @@ public class NewFeatureUtil {
 		} finally {
 			Activator.getDefault().getBundle().getBundleContext().ungetService(agentServiceReference);
 		}
+	}
+	
+	
+	public static boolean installInstallableUnit (final IInstallableUnit[] unitsToInstall) {
+		
+		final boolean[] install = new boolean [1];
+		final Display display = Display.getCurrent();
+		display.syncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				install[0] = MessageDialog.openConfirm(display.getActiveShell(), "Confirm Installation", "Are you sure you want to install this software?");
+			}
+		});
+		
+		// They pressed cancel on the message dialog,
+		// so close the license wizard.
+		if (!install[0]) {
+			return true;
+		}
+		
+		Job job = new Job("Installing New Feature") {
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				IProvisioningAgent agent = NewFeatureUtil.getAgent();
+				IPlanner planner = (IPlanner) agent.getService(IPlanner.SERVICE_NAME);
+				
+				IProfileRegistry registry = (IProfileRegistry) agent.getService(IProfileRegistry.SERVICE_NAME);
+				IProfile profile = registry.getProfile(IProfileRegistry.SELF);
+				
+				IProfileChangeRequest profileChangeRequest = planner.createChangeRequest(profile);
+				profileChangeRequest.add(unitsToInstall[0]);
+				
+				ProvisioningContext context = new ProvisioningContext(agent);
+				
+				IProvisioningPlan plan = planner.getProvisioningPlan(profileChangeRequest, context, monitor);
+				
+				IEngine engine = (IEngine) agent.getService(IEngine.SERVICE_NAME);
+				return engine.perform(plan, PhaseSetFactory.createDefaultPhaseSet(), monitor);
+			}
+		};
+		
+		// Ask user for restart once installation is complete.
+		ProvisioningOperationRunner por = new ProvisioningOperationRunner(ProvisioningUI.getDefaultUI());
+		por.manageJob(job, ProvisioningJob.RESTART_OR_APPLY);
+		job.setUser(true);
+		job.schedule();
+		
+		return true;
 	}
 }

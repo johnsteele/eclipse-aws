@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="dashboardPage" name="DashboardPage" schema="schema/dashboardPage.exsd"/>
+   <extension-point id="dashboardPage" name="%extension-point.name" schema="schema/dashboardPage.exsd"/>
+   <extension-point id="awsProject" name="%extension-point.name.0" schema="schema/awsProject.exsd"/>
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
-            description="The Dashboard Specific Action Set"
+            description="%actionSet.description"
             id="com.steelejr.eclipse.aws.dashboard.actionSet"
-            label="Dashboard">
+            label="%actionSet.label">
          <action
                class="com.steelejr.eclipse.aws.actions.OpenDashboardActionDelegate"
                icon="icons/aws-box.gif"
                id="com.steelejr.eclipse.aws.dashboard.actions.OpenDashboardActionDelegate"
-               label="Open AWS Dashboard"
+               label="%action.label"
                style="push"
                toolbarPath="additions"
-               tooltip="Open AWS Dashboard">
+               tooltip="%action.tooltip">
          </action>
       </actionSet>
    </extension>
@@ -26,8 +27,38 @@
             default="false"
             icon="icons/aws-box.gif"
             id="com.steelejr.eclipse.aws.dashboard.editor.AwsDashboardEditor"
-            name="AWS Dashboard ">
+            name="%editor.name">
       </editor>
+   </extension>
+   <extension
+         point="com.steelejr.eclipse.aws.dashboard.awsProject">
+      <awsProject
+            class="com.steelejr.eclipse.aws.dashboard.AwsProject1"
+            description="This is a description"
+            hyperlinkText="Link Text"
+            icon="icons/aws-box.gif">
+      </awsProject>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.steelejr.eclipse.aws.dashboard.newCategory"
+            name="Amazon Web Services ">
+      </category>
+      <wizard
+            canFinishEarly="false"
+            category="com.steelejr.eclipse.aws.dashboard.newCategory"
+            class="com.steelejr.eclipse.aws.dashboard.newproject.NewAwsJavaProjectWizard"
+            finalPerspective="com.steelejr.eclipse.aws.perspective.AwsPerspectiveFactory"
+            icon="icons/projects/wiz_new_server_project.gif"
+            id="com.steelejr.eclipse.aws.dashboard.newAwsJavaProjectWizard"
+            name="AWS Java Project"
+            preferredPerspectives="com.steelejr.eclipse.aws.perspective.AwsPerspectiveFactory"
+            project="true">
+         <description>
+            Create a new AWS Java project
+         </description>
+      </wizard>
    </extension>
 
 </plugin>

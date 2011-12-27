@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.steelejr.eclipse.aws.virgo.newVirgoCategory"
+            name="Virgo"
+            parentCategory="com.steelejr.eclipse.aws.dashboard.newCategory/com.steelejr.eclipse.aws.ec2.newEc2Project">
+      </category>
+      <wizard
+            category="com.steelejr.eclipse.aws.dashboard.newCategory/com.steelejr.eclipse.aws.ec2.newEc2Project/com.steelejr.eclipse.aws.virgo.newVirgoCategory"
+            class="com.steelejr.eclipse.aws.virgo.wizard.project.NewAwsVirgoWebProject"
+            finalPerspective="com.steelejr.eclipse.aws.perspective.AwsPerspectiveFactory"
+            icon="icons/projects/virgo_web_bundle.gif"
+            id="com.steelejr.eclipse.aws.virgo.newVirgoWebAppWizard"
+            name="Virgo Web Application Project"
+            preferredPerspectives="com.steelejr.eclipse.aws.perspective.AwsPerspectiveFactory"
+            project="true">
+         <description>
+            Create a new Virgo Web Application Project.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="com.steelejr.eclipse.aws.dashboard.awsProject">
+      <awsProject
+            class="com.steelejr.eclipse.aws.virgo.wizard.project.NewAwsVirgoWebProject"
+            description="Create a Virgo web application."
+            hyperlinkText="Virgo Web Project"
+            icon="icons/projects/virgoWebProject.gif">
+      </awsProject>
+   </extension>
 
 </plugin>

@@ -20,6 +20,7 @@ public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "com.steelejr.eclipse.aws.dashboard"; //$NON-NLS-1$
 	public static final String DASHBOARD_EXTENSION = "com.steelejr.eclipse.aws.dashboard.dashboardPage";
+	public static final String AWS_PROJECT_EXTENSION = "com.steelejr.eclipse.aws.dashboard.awsProject";
 	
 	// The shared instance
 	private static Activator plugin;
@@ -76,5 +77,9 @@ public class Activator extends AbstractUIPlugin {
 		path = new Path ("icons/personal_account.gif");
 		url = FileLocator.find(bundle, path, null);
 		reg.put("personal_account", ImageDescriptor.createFromURL(url).createImage());
+		
+		path = new Path ("icons/wizard/newjavaproj_wiz.png");
+		url = FileLocator.find(bundle, path, null);
+		reg.put("new_javaprojectwiz", ImageDescriptor.createFromURL(url).createImage());
 	}
 }

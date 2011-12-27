@@ -1,16 +1,29 @@
 package com.steelejr.eclipse.aws.dashboard.editor;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
@@ -23,6 +36,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.internal.util.BundleUtility;
+import org.osgi.framework.Bundle;
 
 import com.steelejr.eclipse.aws.AWSCorePlugin;
 import com.steelejr.eclipse.aws.auth.PreferenceConstants;
@@ -32,6 +47,7 @@ public class WelcomePage extends FormPage {
 	
 	private Text accountId;
 	private Text since;
+	private FormToolkit my_toolkit;
 
 	public WelcomePage(FormEditor editor, String id, String title) {
 		super(editor, id, title);
@@ -41,6 +57,7 @@ public class WelcomePage extends FormPage {
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
+		my_toolkit = toolkit;
 		form.setText("Overview");
 		toolkit.decorateFormHeading(form.getForm());
 		
@@ -173,9 +190,43 @@ public class WelcomePage extends FormPage {
 		Label projImage = toolkit.createLabel(client, "");
 		projImage.setImage(Activator.getDefault().getImageRegistry().get("new_server_project"));
 		Hyperlink link = toolkit.createHyperlink(client, "AWS Java Project:", SWT.WRAP);
-		Text text = toolkit.createText(client, "Create a new AWS Java-based project.");
+		toolkit.createText(client, "Create a new AWS Java-based project.");
+		
+		addExtensionProjects (client);
 		
 		form.reflow(true);
+	}
+	
+	
+	/**
+	 * Processes the contributed project types.
+	 */
+	private void addExtensionProjects (Composite parent) {
+		
+		IConfigurationElement[] configurations = Platform.getExtensionRegistry().getConfigurationElementsFor(Activator.AWS_PROJECT_EXTENSION);
+		for (IConfigurationElement element : configurations) {
+			String hyperLinkText = element.getAttribute("hyperlinkText");
+			String iconPath      = element.getAttribute("icon");
+			String description   = element.getAttribute("description");
+			Label label = my_toolkit.createLabel(parent, "");
+			String pluginID = element.getDeclaringExtension().getNamespaceIdentifier();
+			Hyperlink link = my_toolkit.createHyperlink(parent, hyperLinkText, SWT.WRAP);
+			my_toolkit.createText(parent, description);
+			
+			Bundle bundle = Platform.getBundle(pluginID);
+			IPath path = new Path(iconPath);
+			URL url = FileLocator.find(bundle, path, null);
+			Image image = ImageDescriptor.createFromURL(url).createImage();
+			label.setImage(image);
+			
+			link.addListener(SWT.MouseUp, new Listener() {
+				
+				@Override
+				public void handleEvent(Event event) {
+					
+				}
+			});
+		}
 	}
 	
 	

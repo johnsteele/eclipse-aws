@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Dashboard
+Bundle-Name: AWS Dashboard
 Bundle-SymbolicName: com.steelejr.eclipse.aws.dashboard;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.steelejr.eclipse.aws.dashboard.Activator
-Bundle-Vendor: STEELEJR
+Bundle-Vendor: steelejr
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.forms;bundle-version="3.5.100"

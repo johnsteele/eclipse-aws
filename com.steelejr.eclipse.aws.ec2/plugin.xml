@@ -18,5 +18,23 @@
             name="Ec2">
       </page>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.steelejr.eclipse.aws.ec2.newEc2Project"
+            name="Ec2"
+            parentCategory="com.steelejr.eclipse.aws.dashboard.newCategory">
+      </category>
+      <wizard
+            category="com.steelejr.eclipse.aws.dashboard.newCategory/com.steelejr.eclipse.aws.ec2.newEc2Project"
+            class="com.steelejr.eclipse.aws.ec2.wizard.projects.NewEc2InstanceWizard"
+            finalPerspective="com.steelejr.eclipse.aws.perspective.AwsPerspectiveFactory"
+            icon="icons/projects/new_ec2_instance.gif"
+            id="com.steelejr.eclipse.aws.ec2.newEc2InstanceWizard"
+            name="Ec2 Instance"
+            preferredPerspectives="com.steelejr.eclipse.aws.perspective.AwsPerspectiveFactory"
+            project="false">
+      </wizard>
+   </extension>
 
 </plugin>

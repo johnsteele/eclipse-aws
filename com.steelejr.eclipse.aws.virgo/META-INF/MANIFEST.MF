@@ -6,6 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.steelejr.eclipse.aws.virgo.Activator
 Bundle-Vendor: STEELEJR
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ com.steelejr.eclipse.aws.dashboard;bundle-version="1.0.0",
+ com.steelejr.eclipse.aws.ec2;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

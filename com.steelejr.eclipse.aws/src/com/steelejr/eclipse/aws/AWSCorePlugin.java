@@ -42,7 +42,6 @@ public class AWSCorePlugin extends AbstractUIPlugin {
 		//AbstractAccountInfo info = getAccountInfo();
 		//String accessKey = info.getAccessKey();
 		//String secretKey = info.getSecretKey();
-		aws_credentials = new BasicAWSCredentials("AKIAICAD37RENDG64DZQ", "8VilybiSyi+2KhauM87FOK9hHFqPdIONN3vQ1sRS");
 		ec2_instance = new AmazonEC2Client(aws_credentials);
 		super.start(context);
 		plugin = this;
